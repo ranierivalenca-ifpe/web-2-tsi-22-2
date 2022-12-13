@@ -16,6 +16,18 @@ function deleteCategory(id) {
     )
 }
 
+const form = useForm({
+    title: '',
+});
+
+function addCategory() {
+    form.post(route('categories.store'), {
+        onFinish: () => {
+            form.title = ''
+        }
+    })
+}
+
 </script>
 
 <template>
@@ -33,5 +45,9 @@ function deleteCategory(id) {
                 <a class="cursor-pointer font-bold text-red-500" v-on:click="deleteCategory(cat.id)">&times;</a>
             </li>
         </ul>
+        <form v-on:submit.prevent="addCategory()">
+            <input type="text" placeholder="title" v-model="form.title">
+            <button>Add</button>
+        </form>
     </AuthenticatedLayout>
 </template>

@@ -1,10 +1,20 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head } from '@inertiajs/inertia-vue3';
+import { Head, useForm } from '@inertiajs/inertia-vue3';
 
 defineProps({
     'categories': []
 })
+
+function deleteCategory(id) {
+    if (!confirm('are you sure?')) return
+    useForm().delete(
+        route(
+            'categories.destroy', 
+            { 'category': id}
+        )
+    )
+}
 
 </script>
 
@@ -19,7 +29,8 @@ defineProps({
         <h1>Aqui vão as categorias</h1>
         <ul>
             <li v-for="cat of categories" :key="cat" class="border-b-4 shadow-lg bg-yellow-400 p-2 mb-2 rounded border-red-500">
-                {{ cat.title }} <a>&times;</a>
+                {{ cat.title }} 
+                <a class="cursor-pointer font-bold text-red-500" v-on:click="deleteCategory(cat.id)">&times;</a>
             </li>
         </ul>
     </AuthenticatedLayout>
